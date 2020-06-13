@@ -5,12 +5,14 @@
 }
 
 body {
+  min-height: 100vh;
+}
+
+.background {
   background-image: url('https://images.unsplash.com/flagged/photo-1554131297-39877b87bddf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=50');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-blend-mode: darken;
-  min-height: 100vh;
 }
 
 .background-overlay {
@@ -20,7 +22,7 @@ body {
 }
 
 .header {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   display: flex;
   flex-wrap: wrap;
@@ -46,7 +48,7 @@ body {
 
 .header .logo h1 {
   text-transform: uppercase;
-  letter-spacing: 0.4rem;
+  letter-spacing: 0.25rem;
   font-size: 3rem;
   color: red;
 }
@@ -142,7 +144,7 @@ body {
 
 .panel {
   flex: 1;
-  max-width: 200px;
+  max-width: 250px;
   align-self: flex-start;
 }
 
@@ -159,7 +161,7 @@ body {
 .panel button {
   display: block;
   margin: 1rem auto;
-  width: 150px;
+  width: 200px;
 }
 
 .info table th,
