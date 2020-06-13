@@ -1,0 +1,194 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url('https://images.unsplash.com/flagged/photo-1554131297-39877b87bddf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=50');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: darken;
+  min-height: 100vh;
+}
+
+.background-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: darken;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 1rem;
+}
+
+.header h1 {
+  padding: 1rem 0;
+  font-size: 2.25rem;
+  margin: 0 auto;
+}
+
+.header .logo {
+  display: flex;
+}
+
+.header .logo img {
+  padding: 1rem 0;
+  width: 55px;
+  height: 55px;
+}
+
+.header .logo h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.4rem;
+  font-size: 3rem;
+  color: red;
+}
+
+.status-text {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header .status {
+  margin: auto 3rem;
+}
+
+.displays,
+.panels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 2rem;
+}
+
+.grid {
+  border: 1px solid black;
+  border-radius: 1em;
+  background-color: antiquewhite;
+  margin: 1rem;
+  padding: 1.5rem;
+}
+
+.grid table {
+  background-color: antiquewhite;
+  border: 1px solid antiquewhite;
+  font-size: 1.4rem;
+  border-spacing: 5px;
+  padding: 1rem;
+}
+
+.grid table caption h5 {
+  margin: 0;
+}
+
+.left .grid table caption {
+  color: red;
+}
+
+.right .grid table caption {
+  color: green;
+}
+
+.grid table,
+.grid th,
+.grid td {
+  border-collapse: collapse;
+}
+
+.grid table th {
+  border: 1px solid antiquewhite;
+  text-align: center;
+  padding: 0.25rem 0.75rem;
+}
+
+.grid table td {
+  background-color: #33c3f0;
+  border: 1px solid antiquewhite;
+  padding: 0.25rem 0.75rem;
+}
+
+.grid table td.ship {
+  background-color: rgb(68, 68, 68);
+}
+
+.grid table td.water-hit {
+  background-color: rgb(238, 159, 159);
+}
+
+.grid table td.ship-hit {
+  background-color: rgb(209, 15, 15);
+}
+
+.grid table td:hover {
+  background-color: darkgrey;
+}
+
+.panel,
+.info,
+.console {
+  border: 1px solid black;
+  padding: 1.5rem;
+  margin: 1.5rem 2rem;
+  background-color: antiquewhite;
+  border-radius: 1em;
+}
+
+.panel {
+  flex: 1;
+  max-width: 200px;
+  align-self: flex-start;
+}
+
+.info {
+  flex: 2;
+  max-width: 260px;
+  align-self: flex-start;
+}
+
+.info table {
+  margin: 2rem auto;
+}
+
+.panel button {
+  display: block;
+  margin: 1rem auto;
+  width: 150px;
+}
+
+.info table th,
+.info table td {
+  padding: 0.5rem 1rem;
+}
+
+.console {
+  flex: 3;
+  min-width: 300px;
+}
+
+.console ul {
+  list-style: none;
+  background-color: rgb(204, 204, 204);
+  height: 200px;
+  overflow-y: scroll;
+  margin: 1rem auto;
+}
+
+.console ul li {
+  margin: 0;
+  padding: 0.5rem 1rem;
+}
+
+.console ul li:nth-child(odd) {
+  background-color: rgb(221, 221, 221);
+}
+
+.text-center {
+  text-align: center;
+}
