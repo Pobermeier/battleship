@@ -1,10 +1,13 @@
-(function App() {
+(function (global, document) {
+  // UI References
   const toggleFullScreenBtn = document.querySelector('#toggle-fullscreen-btn');
 
+  // Register UI Event Listeners
   toggleFullScreenBtn.addEventListener('click', (e) => {
     toggleFullScreen(document.body);
   });
 
+  // Toggle Fullscreen
   function toggleFullScreen(elem) {
     if (
       (document.fullScreenElement !== undefined &&
@@ -36,4 +39,4 @@
       }
     }
   }
-})();
+})(window, window.document);

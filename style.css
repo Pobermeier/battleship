@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;400&display=swap');
 
 * {
   box-sizing: border-box;
@@ -7,9 +7,10 @@
 }
 
 body {
+  color: #f5f5f5;
   min-height: 100vh;
   font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
+  font-weight: 400 !important;
 }
 
 button,
@@ -88,7 +89,7 @@ input[type='submit'],
 .grid {
   border: 1px solid black;
   border-radius: 1em;
-  background-color: rgba(255, 255, 255, 0.65);
+  background-color: rgba(0, 0, 0, 0.7);
   margin: 1rem;
   padding: 1.5rem;
 }
@@ -126,7 +127,7 @@ input[type='submit'],
 
 .grid table td {
   background-color: #33c3f0;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.7);
   padding: 0.25rem 0.75rem;
 }
 
@@ -153,7 +154,7 @@ input[type='submit'],
   border: 1px solid black;
   padding: 1.5rem;
   margin: 1.5rem 2rem;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 1em;
 }
 
@@ -190,7 +191,19 @@ input[type='submit'],
 }
 
 .button {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #f5f5f5;
+}
+
+.button:hover,
+.button:focus {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #f5f5f5;
+}
+
+.button-primary {
+  color: #000 !important;
+  font-weight: 400 !important;
 }
 
 .console ul {
