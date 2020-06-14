@@ -73,7 +73,7 @@ body {
 .grid {
   border: 1px solid black;
   border-radius: 1em;
-  background-color: rgba(250, 235, 215, 0.7);
+  background-color: rgba(255, 255, 255, 0.65);
   margin: 1rem;
   padding: 1.5rem;
 }
@@ -111,7 +111,7 @@ body {
 
 .grid table td {
   background-color: #33c3f0;
-  border: 1px solid rgba(250, 235, 215, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   padding: 0.25rem 0.75rem;
 }
 
@@ -138,7 +138,7 @@ body {
   border: 1px solid black;
   padding: 1.5rem;
   margin: 1.5rem 2rem;
-  background-color: rgba(250, 235, 215, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 1em;
 }
 
@@ -175,7 +175,7 @@ body {
 }
 
 .button {
-  background-color: rgba(250, 235, 215, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .console ul {
