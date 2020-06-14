@@ -228,12 +228,12 @@ input[type='submit'],
 }
 
 .console form input[type='text'] {
-  margin: 0.5rem 1rem 0 0;
+  margin: 0.25rem 0.25rem 0 0;
   flex: 11;
 }
 
 .console form input[type='submit'] {
-  margin: 0.5rem 0 0 1rem;
+  margin: 0.25rem 0 0 0.25rem;
   flex: 1;
 }
 
