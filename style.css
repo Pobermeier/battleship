@@ -117,6 +117,7 @@ input[type='submit'],
 .grid th,
 .grid td {
   border-collapse: collapse;
+  text-transform: uppercase;
 }
 
 .grid table th {
