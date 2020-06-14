@@ -21,11 +21,11 @@
         </div>
         <div class="status-text text-center">
           <div class="status">
-            <h1 class="text-center"><span style="color: red;">Round:</span> <span id="current-round">0</span></h1>
+            <h1 class="text-center"><span style="color: red;">Round:</span> <span id="current-round-txt">0</span></h1>
           </div>
           <div class="status">
-            <h1 class="text-center"><span style="color: red;">Current:</span> It's <span id="current-turn">XXX</span>
-              Turn
+            <h1 class="text-center"><span style="color: red;">Current:</span> <span id="current-turn-txt">It's XXX
+                Turn</span>
             </h1>
           </div>
         </div>
@@ -347,10 +347,10 @@
           <div class="panels">
             <div id="console" class="console">
               <h5 class="text-center">Console & Chat</h5>
-              <ul>
+              <ul id="chat-messages-list">
               </ul>
               <form>
-                <input type="text" name="chat-message" class="u-full-width" id="chat-message" required>
+                <input type="text" name="chat-message" class="u-full-width" id="chat-message-input" required>
                 <input class="button-primary" type="submit" value="Send">
               </form>
             </div>
@@ -393,10 +393,10 @@
             </div>
             <div class="panel">
               <h5 class="text-center">Main Menu</h5>
+              <button class="button" id="show-rules-btn">Rules</button>
               <button class="button" id="toogle-music-btn">Toogle Music</button>
               <button class="button" id="toogle-sound-btn">Toogle Sound</button>
               <button class="button" id="toggle-fullscreen-btn">Toogle Fullscreen</button>
-              <button class="button" id="show-rules-btn">Rules</button>
               <button class="button-primary" id="leave-game-btn">Leave Game</button>
             </div>
           </div>
@@ -405,7 +405,7 @@
     </div>
   </div>
 
-  <script src="./main.js"></script>
+  <script src="./game.js"></script>
 </body>
 
 </html>
