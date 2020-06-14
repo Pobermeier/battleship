@@ -72,7 +72,7 @@ input[type='submit'],
   letter-spacing: 0.1rem;
   font-size: 3.5rem;
   font-weight: 100;
-  color: red;
+  color: rgb(218, 26, 26);
 }
 
 .status-text {
@@ -116,7 +116,7 @@ input[type='submit'],
 }
 
 .left .grid table caption {
-  color: red;
+  color: rgb(218, 26, 26);
 }
 
 .right .grid table caption {
