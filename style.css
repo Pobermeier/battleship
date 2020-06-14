@@ -41,7 +41,7 @@ input[type='submit'],
   color: white;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 1rem;
 }
 
@@ -51,9 +51,14 @@ input[type='submit'],
   margin: 0 auto;
 }
 
+.header .logo {
+  margin: 0 auto;
+}
+
 .header .logo a {
   display: flex;
   text-decoration: none;
+  flex: 2;
 }
 
 .header .logo img {
@@ -64,7 +69,7 @@ input[type='submit'],
 
 .header .logo h1 {
   text-transform: uppercase;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.1rem;
   font-size: 3.5rem;
   font-weight: 100;
   color: red;
@@ -72,11 +77,14 @@ input[type='submit'],
 
 .status-text {
   display: flex;
+  align-items: center;
+  justify-content: space-around;
   flex-wrap: wrap;
+  flex: 10;
 }
 
 .header .status {
-  margin: auto 3rem;
+  margin: 0 auto;
 }
 
 .displays,
@@ -88,7 +96,7 @@ input[type='submit'],
 }
 
 .grid {
-  border: 1px solid black;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   border-radius: 1em;
   background-color: rgba(0, 0, 0, 0.7);
   margin: 1rem;
@@ -112,7 +120,7 @@ input[type='submit'],
 }
 
 .right .grid table caption {
-  color: green;
+  color: #33c3f0;
 }
 
 .grid table,
@@ -154,11 +162,11 @@ input[type='submit'],
 .panel,
 .info,
 .console {
-  border: 1px solid black;
   padding: 1.5rem;
   margin: 1.5rem 2rem;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 1em;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .panel {
