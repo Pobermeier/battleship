@@ -67,20 +67,18 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .grid {
   border: 1px solid black;
   border-radius: 1em;
-  background-color: antiquewhite;
+  background-color: rgba(250, 235, 215, 0.7);
   margin: 1rem;
   padding: 1.5rem;
 }
 
 .grid table {
-  background-color: antiquewhite;
-  border: 1px solid antiquewhite;
   font-size: 1.4rem;
   border-spacing: 5px;
   padding: 1rem;
@@ -88,6 +86,7 @@ body {
 
 .grid table caption h5 {
   margin: 0;
+  margin-bottom: 2rem;
 }
 
 .left .grid table caption {
@@ -105,14 +104,14 @@ body {
 }
 
 .grid table th {
-  border: 1px solid antiquewhite;
   text-align: center;
   padding: 0.25rem 0.75rem;
+  border: none;
 }
 
 .grid table td {
   background-color: #33c3f0;
-  border: 1px solid antiquewhite;
+  border: 1px solid rgba(250, 235, 215, 0.7);
   padding: 0.25rem 0.75rem;
 }
 
@@ -130,6 +129,7 @@ body {
 
 .grid table td:hover {
   background-color: darkgrey;
+  cursor: pointer;
 }
 
 .panel,
@@ -138,7 +138,7 @@ body {
   border: 1px solid black;
   padding: 1.5rem;
   margin: 1.5rem 2rem;
-  background-color: antiquewhite;
+  background-color: rgba(250, 235, 215, 0.7);
   border-radius: 1em;
 }
 
@@ -174,10 +174,14 @@ body {
   min-width: 300px;
 }
 
+.button {
+  background-color: rgba(250, 235, 215, 0.7);
+}
+
 .console ul {
   list-style: none;
   background-color: rgb(204, 204, 204);
-  height: 200px;
+  height: 160px;
   overflow-y: scroll;
   margin: 1rem auto;
 }
