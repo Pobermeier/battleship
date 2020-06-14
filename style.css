@@ -215,8 +215,10 @@ input[type='submit'],
 }
 
 .console ul li {
+  word-wrap: break-word;
   margin: 0;
   padding: 0.5rem 1rem;
+  color: #000;
 }
 
 .console ul li:nth-child(odd) {
@@ -230,6 +232,7 @@ input[type='submit'],
 .console form input[type='text'] {
   margin: 0.25rem 0.25rem 0 0;
   flex: 11;
+  font-size: 1.5rem;
 }
 
 .console form input[type='submit'] {

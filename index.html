@@ -21,11 +21,10 @@
         </div>
         <div class="status-text text-center">
           <div class="status">
-            <h1 class="text-center"><span style="color: red;">Round:</span> <span id="current-round-txt">0</span></h1>
+            <h1 class="text-center"><span style="color: red;">Round:</span> <span id="current-round-txt"></span></h1>
           </div>
           <div class="status">
-            <h1 class="text-center"><span style="color: red;">Current:</span> <span id="current-turn-txt">It's XXX
-                Turn</span>
+            <h1 class="text-center"><span style="color: red;">Current:</span> <span id="current-turn-txt"></span>
             </h1>
           </div>
         </div>
@@ -35,7 +34,7 @@
           <div class="board">
             <div class="displays">
               <div class="left">
-                <div class="grid">
+                <div class="grid" id="enemy-grid">
                   <table>
                     <caption>
                       <h5>Enemy Territory</h5>
@@ -189,7 +188,7 @@
                 </div>
               </div>
               <div class="right">
-                <div class="grid">
+                <div class="grid" id="friendly-grid">
                   <table>
                     <caption>
                       <h5><strong>Your Territory</strong></h5>
@@ -350,7 +349,8 @@
               <ul id="chat-messages-list">
               </ul>
               <form>
-                <input type="text" name="chat-message" class="u-full-width" id="chat-message-input" required>
+                <input type="text" name="chat-message" class="u-full-width" id="chat-message-input"
+                  placeholder="Enter your chat message here..." required>
                 <input class="button-primary" type="submit" value="Send">
               </form>
             </div>
@@ -394,9 +394,9 @@
             <div class="panel">
               <h5 class="text-center">Main Menu</h5>
               <button class="button" id="show-rules-btn">Rules</button>
-              <button class="button" id="toogle-music-btn">Toogle Music</button>
-              <button class="button" id="toogle-sound-btn">Toogle Sound</button>
-              <button class="button" id="toggle-fullscreen-btn">Toogle Fullscreen</button>
+              <button class="button" id="toogle-music-btn">Toggle Music</button>
+              <button class="button" id="toogle-sound-btn">Toggle Sound</button>
+              <button class="button" id="toggle-fullscreen-btn">Toggle Fullscreen</button>
               <button class="button-primary" id="leave-game-btn">Leave Game</button>
             </div>
           </div>
