@@ -24,7 +24,7 @@ input[type='submit'],
 }
 
 .background {
-  background-image: url('https://images.unsplash.com/flagged/photo-1554131297-39877b87bddf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=50');
+  background-image: url('./bg.webp');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
