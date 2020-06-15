@@ -97,7 +97,7 @@
     consoleElement.scrollTop = consoleElement.scrollHeight;
   }
 
-  // Toggle Fullscreen Fn
+  // Toggle Fullscreen
   function toggleFullScreen(elem) {
     if (
       (d.fullScreenElement !== undefined && d.fullScreenElement === null) ||

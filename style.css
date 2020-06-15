@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400&display=swap');
 
 * {
   box-sizing: border-box;
@@ -31,7 +31,7 @@ input[type='submit'],
 }
 
 .background-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #1b647abb;
   background-blend-mode: darken;
   min-height: 100vh;
 }
