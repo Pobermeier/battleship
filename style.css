@@ -155,7 +155,7 @@ input[type='submit'],
 }
 
 .grid table td:hover {
-  background-color: darkgrey;
+  background-color: #206f86;
   cursor: pointer;
 }
 

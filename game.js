@@ -204,12 +204,19 @@
       <tr>
       <th>${letters[indexY]}</th>
         ${rowData
-          .map(
-            (cellData, indexX) =>
-              `<td class="cell" data-x="${indexX}" data-y="${
-                letters[indexY]
-              }">${cellData ? cellData : ''}</td>`,
-          )
+          .map((cellData, indexX) => {
+            switch (cellData) {
+              case 3:
+                return `<td class="cell ship-hit" data-x="${indexX}" data-y="${letters[indexY]}"></td>`;
+              case 2:
+                return `<td class="cell water-hit" data-x="${indexX}" data-y="${letters[indexY]}"></td>`;
+              case 1:
+                return `<td class="cell ship" data-x="${indexX}" data-y="${letters[indexY]}"></td>`;
+              case 0:
+              default:
+                return `<td class="cell" data-x="${indexX}" data-y="${letters[indexY]}"></td>`;
+            }
+          })
           .join('')}
       </tr>
       `;
@@ -234,7 +241,18 @@
 
   // Initial grid data
   function getInitialGridData() {
-    return new Array(10).fill(new Array(10).fill(undefined, 0, 10), 0, 10);
+    return [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
   }
 
   // Leave Game
