@@ -19,12 +19,24 @@
     getHomeGridCaption() {
       return 'Home Waters';
     },
+    getGameHasNotStartedErrorMessage() {
+      return "You cannot attack yet, because the game hasn't started. Please place all of your ships for the game to begin!";
+    },
+    getWrongFieldClickedErrorMessage() {
+      return "There's no point in clicking here! Click on your enemies' play field to attack his ships.";
+    },
+    getGameIsAlreadyOverErrorMessage() {
+      return 'Game is over! You can stop clicking!';
+    },
   };
 
   // Game states
   const gameStates = {
     gameIsInitializing: 'gameIsInitializing',
     gameInitialized: 'gameInitialized',
+    setShipsRound: 'setShipsRound',
+    gameRunning: 'gameRunning',
+    gameOver: 'gameOver',
   };
 
   // Global state variables
@@ -83,8 +95,17 @@
 
       playerGrids.forEach((grid) => {
         grid.addEventListener('click', (e) => {
-          if (e.target.classList.contains('cell')) {
-            const elementId = e.target.closest('.grid').id;
+          const elementId = e.target.closest('.grid').id;
+
+          if (state.gameState === gameStates.gameOver) {
+            addConsoleMessage(
+              chatMessagesList,
+              strings.getGameIsAlreadyOverErrorMessage(),
+            );
+          } else if (
+            state.gameState === gameStates.gameRunning &&
+            e.target.classList.contains('cell')
+          ) {
             switch (elementId) {
               case 'enemy-grid':
                 console.log(
@@ -95,14 +116,30 @@
                 break;
 
               case 'friendly-grid':
+                addConsoleMessage(
+                  chatMessagesList,
+                  strings.getWrongFieldClickedErrorMessage(),
+                );
+                break;
+            }
+          } else if (
+            state.gameState === gameStates.setShipsRound &&
+            e.target.classList.contains('cell')
+          ) {
+            switch (elementId) {
+              case 'enemy-grid':
+                addConsoleMessage(
+                  chatMessagesList,
+                  strings.getGameHasNotStartedErrorMessage(),
+                );
+                break;
+
+              case 'friendly-grid':
                 console.log(
                   `Click on Friendly Grid ${e.target.dataset.y.toUpperCase()}${
                     e.target.dataset.x
                   }`,
                 );
-                break;
-
-              default:
                 break;
             }
           }
@@ -140,7 +177,7 @@
       });
 
       // Init complete
-      state.gameState = gameStates.gameInitialized;
+      state.gameState = gameStates.gameRunning;
     })();
   });
 
@@ -193,6 +230,10 @@
 
   // Update grid
   function updateGrid(rootElement, captionText, data) {
+    console.group(captionText);
+    console.table(data);
+    console.groupEnd();
+
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     const tableHeaderCells = new Array(10)
       .fill('', 0, 10)
