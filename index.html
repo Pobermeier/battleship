@@ -42,11 +42,29 @@
               </div>
               <div class="tab hidden" id="create-tab">
                 <h5 class="text-center"><strong>Create New Game</strong></h5>
-                <br>
+                <form action="/games" method="post">
+                  <label for="player-name">Your Player Name:</label>
+                  <input type="text" name="player-name" class="u-full-width player-name" required>
+                  <!-- <label for="password">Game Password (optional):</label>
+                  <input type="password" name="password" id="password" class="u-full-width"> -->
+                  <button type="submit" class="button button-primary">Create Game</button>
+                </form>
                 <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
               </div>
               <div class="tab hidden" id="join-tab">
                 <h5 class="text-center"><strong>Back To Main Menu</strong></h5>
+                <form action="/play.html" method="get">
+                  <label for="player-name">Your Player Name:</label>
+                  <input type="text" name="player-name" class="u-full-width player-name" required>
+                  <label for="game">Currently Available Games:</label>
+                  <select name="game" id="games-list" class="u-full-width">
+                    <option value="game1">Game 1</option>
+                    <option value="game2">Game 2</option>
+                    <option value="game3">Game 3</option>
+                  </select>
+                  <button type="submit" class="button button-primary">Join Game</button>
+                  <button class="button">Refresh Games List</button>
+                </form>
                 <br>
                 <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
               </div>
