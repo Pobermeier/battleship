@@ -175,6 +175,19 @@ input[type='submit'],
   align-self: flex-start;
 }
 
+.panel.main-menu {
+  max-width: 600px;
+  margin-top: 10vh;
+}
+
+.panel.main-menu button {
+  width: 100%;
+}
+
+.panel.main-menu button:not(:first-of-type) {
+  margin-top: 2rem;
+}
+
 .info {
   flex: 2;
   max-width: 260px;
@@ -253,4 +266,8 @@ input[type='submit'],
 
 .text-center {
   text-align: center;
+}
+
+.hidden {
+  display: none;
 }

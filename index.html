@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Battleship</title>
+  <title>Battleship!</title>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -20,7 +20,7 @@
         <div class="logo">
           <a href="/">
             <img src="./battleship.svg" alt="Battleship">
-            <h1 class="text-center">Battle<span style="color: antiquewhite;">ship</span></h1>
+            <h1 class="text-center">Battle<span style="color: antiquewhite;">ship</span>!</h1>
           </a>
         </div>
       </header>
@@ -28,14 +28,28 @@
         <div id="game">
           <div class="panels">
             <div class="panel main-menu">
-              <h5 class="text-center"><strong>Main Menu</strong></h5>
-              <button class="button-primary" id="leave-game-btn">Create New Game</button>
-              <button class="button-primary" id="leave-game-btn">Join Existing Game</button>
-              <button class="button" id="show-rules-btn">Show Rules</button>
-              <button class="button" id="toogle-music-btn">Toggle Music</button>
-              <button class="button" id="toogle-sound-btn">Toggle Sound</button>
-              <button class="button" id="toggle-fullscreen-btn">Toggle Fullscreen</button>
-              <button class="button" id="toggle-fullscreen-btn">Credits</button>
+              <div class="tab" id="main-tab">
+                <h5 class="text-center"><strong>Main Menu</strong></h5>
+                <button class="button-primary tab-trigger" id="create-btn" data-targets="create-tab">Create New
+                  Game</button>
+                <button class="button-primary tab-trigger" id="join-btn" data-targets="join-tab">Join Existing
+                  Game</button>
+                <button class="button" id="show-rules-btn">Show Rules</button>
+                <button class="button" id="toogle-music-btn">Toggle Music</button>
+                <button class="button" id="toogle-sound-btn">Toggle Sound</button>
+                <button class="button" id="toggle-fullscreen-btn">Toggle Fullscreen</button>
+                <button class="button" id="show-credits-btn">Credits</button>
+              </div>
+              <div class="tab hidden" id="create-tab">
+                <h5 class="text-center"><strong>Create New Game</strong></h5>
+                <br>
+                <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
+              </div>
+              <div class="tab hidden" id="join-tab">
+                <h5 class="text-center"><strong>Back To Main Menu</strong></h5>
+                <br>
+                <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
+              </div>
             </div>
           </div>
         </div>
