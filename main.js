@@ -1,7 +1,7 @@
 (function (w, d) {
   // Global State
   const state = {
-    playerName: '',
+    playerName: localStorage.getItem('playerName') || '',
   };
 
   // Strings
@@ -9,19 +9,11 @@
 
   d.addEventListener('DOMContentLoaded', () => {
     // UI References
-    const createGameBtn = d.querySelector('#create-btn');
-    const joinGameBtn = d.querySelector('#join-btn');
     const tabTriggers = d.querySelectorAll('.tab-trigger');
-    const showRulesBtn = d.querySelector('#show-rules-btn');
-    const toggleMusicBtn = d.querySelector('#toogle-music-btn');
-    const toggleSoundBtn = d.querySelector('#toogle-sound-btn');
-    const toggleFullScreenBtn = d.querySelector('#toggle-fullscreen-btn');
-    const showCreditsBtn = d.querySelector('#show-credits-btn');
+    const secondaryButtons = d.querySelectorAll('.secondary-btn');
 
     // Init function
     (function init() {
-      state.playerName = localStorage.getItem('playerName') || '';
-
       // Register UI Event Listeners
       tabTriggers.forEach((tabTrigger) => {
         tabTrigger.addEventListener('click', (e) => {
@@ -33,24 +25,32 @@
         });
       });
 
-      showRulesBtn.addEventListener('click', (e) => {
-        console.log('Show Rules Btn Pressed!');
-      });
+      secondaryButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+          const elementId = e.target.closest('button').id;
 
-      toggleMusicBtn.addEventListener('click', (e) => {
-        console.log('Toggle Music Btn Pressed!');
-      });
-
-      toggleSoundBtn.addEventListener('click', (e) => {
-        console.log('Toggle Sound Btn Pressed!');
-      });
-
-      toggleFullScreenBtn.addEventListener('click', (e) => {
-        toggleFullScreen(d.body);
-      });
-
-      showCreditsBtn.addEventListener('click', (e) => {
-        console.log('Show Credits Btn Pressed!');
+          switch (elementId) {
+            case 'refresh-games-btn':
+              e.preventDefault();
+              console.log('Refresh Games-List Btn Pressed!');
+              break;
+            case 'toggle-music-btn':
+              console.log('Toggle Music Btn Pressed!');
+              break;
+            case 'toggle-sound-btn':
+              console.log('Toggle Sound Btn Pressed!');
+              break;
+            case 'toggle-fullscreen-btn':
+              toggleFullScreen(d.body);
+              break;
+            case 'show-credits-btn':
+              console.log('Show Credits Btn Pressed!');
+              break;
+            case 'show-rules-btn':
+              console.log('Show Rules Btn Pressed!');
+              break;
+          }
+        });
       });
     })();
   });
