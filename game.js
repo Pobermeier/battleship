@@ -45,6 +45,7 @@
     const headerLogoLink = d.querySelector('.header .logo a');
     const currentRoundText = d.querySelector('#current-round-txt');
     const currentTurnText = d.querySelector('#current-turn-txt');
+    const playerGrids = d.querySelectorAll('.grid');
     const enemyGrid = d.querySelector('#enemy-grid');
     const friendlyGrid = d.querySelector('#friendly-grid');
     const chatForm = d.querySelector('#console form');
@@ -56,9 +57,8 @@
     const toggleFullScreenBtn = d.querySelector('#toggle-fullscreen-btn');
     const leaveGameBtn = d.querySelector('#leave-game-btn');
 
-    // Init function
+    // Init Game functions
     (function init() {
-      console.log('Init Game');
       state.playerName = 'Patrick';
       addConsoleMessage(
         chatMessagesList,
@@ -79,6 +79,34 @@
       headerLogoLink.addEventListener('click', (e) => {
         e.preventDefault();
         leaveGame();
+      });
+
+      playerGrids.forEach((grid) => {
+        grid.addEventListener('click', (e) => {
+          if (e.target.classList.contains('cell')) {
+            const elementId = e.target.closest('.grid').id;
+            switch (elementId) {
+              case 'enemy-grid':
+                console.log(
+                  `Click on Enemy Grid ${e.target.dataset.y.toUpperCase()}${
+                    e.target.dataset.x
+                  }`,
+                );
+                break;
+
+              case 'friendly-grid':
+                console.log(
+                  `Click on Friendly Grid ${e.target.dataset.y.toUpperCase()}${
+                    e.target.dataset.x
+                  }`,
+                );
+                break;
+
+              default:
+                break;
+            }
+          }
+        });
       });
 
       showRulesBtn.addEventListener('click', (e) => {
@@ -178,9 +206,9 @@
         ${rowData
           .map(
             (cellData, indexX) =>
-              `<td data-x="${indexX}" data-y="${letters[indexY]}">${
-                cellData ? cellData : ''
-              }</td>`,
+              `<td class="cell" data-x="${indexX}" data-y="${
+                letters[indexY]
+              }">${cellData ? cellData : ''}</td>`,
           )
           .join('')}
       </tr>
