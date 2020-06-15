@@ -1,9 +1,20 @@
-(function (global, d) {
-  // State variables
-  const state = {
-    isGameInitialized: false,
-    playerName: '',
+(function (w, d) {
+  // Game states
+  const gameStates = {
+    gameIsInitializing: 'gameIsInitializing',
+    gameInitialized: 'gameInitialized',
   };
+
+  Object.freeze(gameStates);
+
+  // Global state variables
+  const state = {
+    gameState: gameStates.gameIsInitializing,
+    playerName: '',
+    initialGridData: getInitialGridData(),
+  };
+
+  Object.seal(state);
 
   // Strings
   const strings = {
@@ -20,6 +31,7 @@
 
   d.addEventListener('DOMContentLoaded', () => {
     // UI References
+    const headerLogoLink = d.querySelector('.header .logo a');
     const currentRountText = d.querySelector('#current-round-txt');
     const currentTurnText = d.querySelector('#current-turn-txt');
     const enemyGrid = d.querySelector('#enemy-grid');
@@ -49,6 +61,11 @@
       initializePlayerGrids();
 
       // Register UI Event Listeners
+      headerLogoLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        leaveGame();
+      });
+
       showRulesBtn.addEventListener('click', (e) => {
         console.log('Show Rules Btn Pressed!');
       });
@@ -66,7 +83,7 @@
       });
 
       leaveGameBtn.addEventListener('click', (e) => {
-        if (confirm(strings.getLeaveConfirmText())) window.location = '';
+        leaveGame();
       });
 
       d.addEventListener('keydown', (e) => {
@@ -80,12 +97,12 @@
       });
 
       // Init complete
-      state.isGameInitialized = true;
+      state.gameState = gameStates.gameInitialized;
     })();
   });
 
   // Init Player Grids
-  function initializePlayerGrids() {}
+  function initializePlayerGrids(playerGridRoots) {}
 
   // Add console message
   function addConsoleMessage(
@@ -125,6 +142,137 @@
         d.msExitFullscreen();
       }
     }
+  }
+
+  // Initial grid data
+  function getInitialGridData() {
+    return [
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+    ];
+  }
+
+  // Leave Game
+  function leaveGame() {
+    if (confirm(strings.getLeaveConfirmText())) w.location = '/';
   }
 
   // Utility Functions
