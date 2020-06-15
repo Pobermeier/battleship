@@ -1,20 +1,6 @@
 (function (w, d) {
-  // Game states
-  const gameStates = {
-    gameIsInitializing: 'gameIsInitializing',
-    gameInitialized: 'gameInitialized',
-  };
-
-  Object.freeze(gameStates);
-
-  // Global state variables
-  const state = {
-    gameState: gameStates.gameIsInitializing,
-    playerName: '',
-    initialGridData: getInitialGridData(),
-  };
-
-  Object.seal(state);
+  // Initial Grid Data
+  const initialGridData = getInitialGridData();
 
   // Strings
   const strings = {
@@ -27,12 +13,37 @@
     getLeaveConfirmText() {
       return `Are you sure you want to leave the game?`;
     },
+    getEnemyGridCaption() {
+      return 'Enemy Waters';
+    },
+    getHomeGridCaption() {
+      return 'Home Waters';
+    },
   };
 
+  // Game states
+  const gameStates = {
+    gameIsInitializing: 'gameIsInitializing',
+    gameInitialized: 'gameInitialized',
+  };
+
+  // Global state variables
+  const state = {
+    gameState: gameStates.gameIsInitializing,
+    playerName: '',
+    enemyPlayerGridData: initialGridData,
+    PlayerGridData: initialGridData,
+  };
+
+  // Prohibit modification of state
+  Object.freeze(gameStates);
+  Object.seal(state);
+
+  // Init game once DOM elements are fully loaded
   d.addEventListener('DOMContentLoaded', () => {
     // UI References
     const headerLogoLink = d.querySelector('.header .logo a');
-    const currentRountText = d.querySelector('#current-round-txt');
+    const currentRoundText = d.querySelector('#current-round-txt');
     const currentTurnText = d.querySelector('#current-turn-txt');
     const enemyGrid = d.querySelector('#enemy-grid');
     const friendlyGrid = d.querySelector('#friendly-grid');
@@ -54,11 +65,15 @@
         strings.getInitialGameConsoleString(),
       );
       chatInput.focus();
-      currentRountText.innerHTML = '0';
+      currentRoundText.innerHTML = '0';
       currentTurnText.innerHTML = strings.getInitialCurrentTurnString();
 
       // Initialize Player Grids
-      initializePlayerGrids();
+      initializePlayerGrids(
+        [enemyGrid, friendlyGrid],
+        [strings.getEnemyGridCaption(), strings.getHomeGridCaption()],
+        initialGridData,
+      );
 
       // Register UI Event Listeners
       headerLogoLink.addEventListener('click', (e) => {
@@ -102,7 +117,11 @@
   });
 
   // Init Player Grids
-  function initializePlayerGrids(playerGridRoots) {}
+  function initializePlayerGrids(playerGridRoots, captions, data) {
+    playerGridRoots.forEach((root, index) => {
+      updateGrid(root, captions[index], data);
+    });
+  }
 
   // Add console message
   function addConsoleMessage(
@@ -144,130 +163,50 @@
     }
   }
 
+  // Update grid
+  function updateGrid(rootElement, captionText, data) {
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    const tableHeaderCells = new Array(10)
+      .fill('', 0, 10)
+      .map((e, i) => `<th>${i}</th>`)
+      .join('');
+    const tableContent = data
+      .map((rowData, indexY) => {
+        return `
+      <tr>
+      <th>${letters[indexY]}</th>
+        ${rowData
+          .map(
+            (cellData, indexX) =>
+              `<td data-x="${indexX}" data-y="${letters[indexY]}">${
+                cellData ? cellData : ''
+              }</td>`,
+          )
+          .join('')}
+      </tr>
+      `;
+      })
+      .join('');
+
+    rootElement.innerHTML = `
+    <table>
+      <caption>
+        <h5><strong>${captionText}</strong></h5>
+      </caption>
+      <thead>
+        <th></th>
+        ${tableHeaderCells}
+      </thead>
+      <tbody>
+        ${tableContent}
+      </tbody>
+    </table>
+    `;
+  }
+
   // Initial grid data
   function getInitialGridData() {
-    return [
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-      [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ],
-    ];
+    return new Array(10).fill(new Array(10).fill(undefined, 0, 10), 0, 10);
   }
 
   // Leave Game
@@ -277,4 +216,4 @@
 
   // Utility Functions
   // ...
-})(window, window.document);
+})(window, document);
