@@ -34,11 +34,18 @@
                   Game</button>
                 <button class="button-primary tab-trigger" id="join-btn" data-targets="join-tab">Join Existing
                   Game</button>
-                <button class="button secondary-btn" id="show-rules-btn">Show Rules</button>
+                <button class="button tab-trigger" id="show-rules-btn" data-targets="rules-tab">Show Rules</button>
+                <button class="button tab-trigger" id="show-credits-btn" data-targets="credits-tab">Show
+                  Credits</button>
+                <br>
+                <h6 class="text-center"><strong>Options</strong></h6>
                 <button class="button secondary-btn" id="toggle-music-btn">Toggle Music</button>
                 <button class="button secondary-btn" id="toggle-sound-btn">Toggle Sound</button>
                 <button class="button secondary-btn" id="toggle-fullscreen-btn">Toggle Fullscreen</button>
-                <button class="button secondary-btn" id="show-credits-btn">Credits</button>
+                <br>
+                <p class="text-center">&copy; <span>2020</span> Created by <a
+                    href="https://www.patrickobermeier.dev">Patrick
+                    Obermeier</a>.</p>
               </div>
               <div class="tab hidden" id="create-tab">
                 <h5 class="text-center"><strong>Create New Game</strong></h5>
@@ -49,6 +56,7 @@
                   <input type="password" name="password" id="password" class="u-full-width"> -->
                   <button type="submit" class="button button-primary">Create Game</button>
                 </form>
+                <br>
                 <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
               </div>
               <div class="tab hidden" id="join-tab">
@@ -65,6 +73,28 @@
                   <button type="submit" class="button button-primary">Join Game</button>
                   <button class="button secondary-btn" id="refresh-games-btn">Refresh Games List</button>
                 </form>
+                <br>
+                <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
+              </div>
+              <div class="tab hidden" id="rules-tab">
+                <h5 class="text-center"><strong>Rules</strong></h5>
+                <p>TODO: Add Rules</p>
+                <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
+              </div>
+              <div class="tab hidden" id="credits-tab">
+                <h5 class="text-center"><strong>Credits</strong></h5>
+                <p>🛳️ <strong>Battleship!</strong> <br>Version 1.0.0</p>
+                <p><span style="text-decoration: underline">Technologies used:</span> HTML5, CSS3, Vanilla JavaScript,
+                  NodeJS, Express, Socket.io;</p>
+                <p>
+                  <a href="https://unsplash.com/photos/C57lmA3a5zY">Background Image</a> by Thomas Park from Unsplash.
+                  <br>
+                  <a href="https://thenounproject.com/search/?q=battleship&i=2506975">Battleship by Phạm Thanh Lộc</a>
+                  from the Noun Project.
+                </p>
+                <p>
+                  &copy; <span>2020</span>. Created and Designed by <a href="https://www.patrickobermeier.dev">Patrick
+                    Obermeier</a>.</p>
                 <br>
                 <button class="button tab-trigger" data-targets="main-tab">Back to Main Menu</button>
               </div>

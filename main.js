@@ -36,18 +36,14 @@
               break;
             case 'toggle-music-btn':
               console.log('Toggle Music Btn Pressed!');
+              alert('Coming Soon!');
               break;
             case 'toggle-sound-btn':
               console.log('Toggle Sound Btn Pressed!');
+              alert('Coming Soon!');
               break;
             case 'toggle-fullscreen-btn':
               toggleFullScreen(d.body);
-              break;
-            case 'show-credits-btn':
-              console.log('Show Credits Btn Pressed!');
-              break;
-            case 'show-rules-btn':
-              console.log('Show Rules Btn Pressed!');
               break;
           }
         });

@@ -152,10 +152,12 @@
 
       toggleMusicBtn.addEventListener('click', (e) => {
         console.log('Toggle Music Btn Pressed!');
+        alert('Coming Soon!');
       });
 
       toggleSoundBtn.addEventListener('click', (e) => {
         console.log('Toggle Sound Btn Pressed!');
+        alert('Coming Soon!');
       });
 
       toggleFullScreenBtn.addEventListener('click', (e) => {
