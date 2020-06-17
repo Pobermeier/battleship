@@ -148,6 +148,7 @@
 
       showRulesBtn.addEventListener('click', (e) => {
         console.log('Show Rules Btn Pressed!');
+        alert('Coming Soon!');
       });
 
       toggleMusicBtn.addEventListener('click', (e) => {
@@ -179,7 +180,7 @@
       });
 
       // Init complete
-      state.gameState = gameStates.gameRunning;
+      state.gameState = gameStates.gameIsInitializing;
     })();
   });
 

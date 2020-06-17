@@ -80,4 +80,4 @@
       }
     }
   }
-})(window, window.document);
+})(window, document);
