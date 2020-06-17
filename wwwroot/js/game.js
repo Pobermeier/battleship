@@ -361,7 +361,7 @@
 
   // Leave Game
   function leaveGame() {
-    if (confirm(strings.getLeaveConfirmText())) w.location.path = '/';
+    if (confirm(strings.getLeaveConfirmText())) w.location = '/';
   }
 
   // Utility Functions
