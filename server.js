@@ -74,7 +74,7 @@ app.post('/games', (req, res) => {
 
     const gameId = generateUUID();
     const game = new Game(gameId, `${playerName}'s Game`, [player]);
-    console.log('Created new game', game);
+    console.log('Created new game: ', JSON.stringify(game));
 
     games = { ...games, [gameId]: game };
     console.log('All games: ', JSON.stringify(games));
