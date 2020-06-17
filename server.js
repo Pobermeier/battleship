@@ -29,7 +29,7 @@ app.get('/games', (req, res) => {
       (game) => !game.isGameFull(),
     );
     console.log('Available games requested:', JSON.stringify(availGames));
-    console.log('All games: ', JSON.stringify(games));
+    console.log('All games currently live: ', JSON.stringify(games));
     res.status(200).json(availGames);
   }
 });
@@ -76,7 +76,7 @@ app.post('/games', (req, res) => {
     console.log('Created new game: ', JSON.stringify(game));
 
     games = { ...games, [gameId]: game };
-    console.log('All games: ', JSON.stringify(games));
+    console.log('All games currently live: ', JSON.stringify(games));
 
     res
       .status(301)
@@ -109,6 +109,7 @@ const gameStates = {
 const io = socketio(server);
 
 io.on('connection', (socket) => {
+  // The state for this individual session = player
   const state = {
     gameState: gameStates.gameIsInitializing,
     gameId: null,
@@ -127,7 +128,7 @@ io.on('connection', (socket) => {
 
     // Initialize grid data for this player
     games[state.gameId][`${playerId}_grid`] = getInitialGridData();
-    console.log(games[state.gameId][`${playerId}_grid`]);
+    games[state.gameId][`${playerId}_shipsPlaced`] = 0;
 
     // Change game state to "initialized"
     state.gameState = gameStates.gameInitialized;
