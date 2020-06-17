@@ -26,8 +26,10 @@ app.get('/games', (req, res) => {
     res.status(500).json({ statusCode: 500, msg: 'Internal Server Error' });
   } else {
     // Filter out full games
-    const availGames = games.filter((game) => !game.isGameFull());
-    // console.log('Available games requested:', JSON.stringify(availGames));
+    const availGames = Object.values(games).filter(
+      (game) => !game.isGameFull(),
+    );
+    console.log('Available games requested:', JSON.stringify(availGames));
     res.status(200).json(availGames);
   }
 });
@@ -40,31 +42,23 @@ app.get('/games/join', (req, res) => {
 
   const player = new Player(playerId, playerName);
 
+  console.log(gameId);
+  console.log(games);
+  console.log(games[gameId]);
+
   if (!playerName || !gameId || !playerId) {
     res.status(404).redirect('/');
+  } else if (games[gameId].isGameFull()) {
+    res.status(404).redirect('/');
+  } else if (games[gameId].isGameEmpty()) {
+    delete games[gameId];
+    res.status(404).redirect('/');
   } else {
-    const updatedGames = games.map((game) => {
-      if (game.id === gameId) {
-        if (game.isGameFull()) {
-          res.status(404).redirect('/');
-          return game;
-        } else if (game.isGameEmpty()) {
-          res.status(404).redirect('/');
-          return null;
-        } else {
-          game.players.push(player);
-          return game;
-        }
-      } else {
-        return game;
-      }
-    });
-    games = [...updatedGames];
+    games[gameId].players.push(player);
+    res.redirect(
+      `/play.html?playerName=${playerName}&game=${gameId}&playerId=${playerId}`,
+    );
   }
-
-  res.redirect(
-    `/play.html?playerName=${playerName}&game=${gameId}&playerId=${playerId}`,
-  );
 });
 
 // Route gets called when a new game is being created
@@ -79,12 +73,14 @@ app.post('/games', (req, res) => {
   } else {
     const playerName = req.body['playerName'];
     const playerId = req.body['playerId'];
-
     const player = new Player(playerId, playerName);
-    const game = new Game(generateUUID(), `${playerName}'s Game`, [player]);
 
-    // console.log('Created new game', JSON.stringify(game));
-    games.push(game);
+    const gameId = generateUUID();
+    const game = new Game(gameId, `${playerName}'s Game`, [player]);
+    console.log('Created new game', game);
+
+    games = { ...games, [gameId]: game };
+    console.log('all games: ', JSON.stringify(games));
 
     res
       .status(301)
@@ -101,6 +97,7 @@ const server = app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`);
 });
 
+// Socket.io Stuff
 const io = socketio(server);
 
 io.on('connection', (socket) => {
@@ -136,5 +133,12 @@ io.on('connection', (socket) => {
       'message',
       `${state.playerName} has left the game.`,
     );
+
+    games[state.gameId].players = games[state.gameId].players.filter(
+      (player) => player.id !== state.playerId,
+    );
+    if (games[state.gameId].players.length === 0) {
+      delete games[state.gameId];
+    }
   });
 });
