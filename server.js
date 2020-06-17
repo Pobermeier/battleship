@@ -105,6 +105,9 @@ const gameStates = {
   gameOver: 'gameOver',
 };
 
+// Letter for array-number lookup
+const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
 // Socket.io Stuff
 const io = socketio(server);
 
@@ -116,6 +119,8 @@ io.on('connection', (socket) => {
     playerName: '',
   };
 
+  let thisGame;
+
   socket.on('joinGame', ({ gameId, playerId, playerName }) => {
     // Set state variables for this connection
     state.gameId = gameId;
@@ -123,54 +128,99 @@ io.on('connection', (socket) => {
     state.playerId = playerId;
 
     // Join game / room
-    socket.join(gameId);
+    socket.join(state.gameId);
+
+    thisGame = games[state.gameId];
 
     // Initialize grid data for this player
-    games[state.gameId][`${playerId}_grid`] = getInitialGridData();
-    games[state.gameId][`${playerId}_shipsPlaced`] = 0;
+    thisGame[`${state.playerId}_grid`] = getInitialGridData();
+    thisGame[`${state.playerId}_shipsPlaced`] = 0;
+    thisGame[`${state.playerId}_shipsLost`] = 0;
 
     // Change game state to "initialized"
 
-    games[state.gameId].gameState = gameStates.gameInitialized;
-    socket.emit('changeGameState', games[state.gameId].gameState);
+    thisGame.gameState = gameStates.gameInitialized;
+    socket.emit('changeGameState', thisGame.gameState);
     socket.emit('message', 'Welcome to the game!');
 
     // Broadcast to other player that another player has joined
     socket.broadcast
-      .to(gameId)
-      .emit('message', `${playerName} has joined the game.`);
+      .to(state.gameId)
+      .emit('message', `${state.playerName} has joined the game.`);
 
     // Check number of players, as soon as both players are there => game can start
-    if (games[state.gameId].players.length <= 1) {
+    if (thisGame.players.length <= 1) {
       socket.emit('message', 'Waiting for other players to join...');
-      console.log(games[state.gameId].gameState);
-    } else if (games[state.gameId].players.length >= 2) {
+    } else if (thisGame.players.length >= 2) {
       // Unlist game from lobby as soon as a second player joins
-      games[state.gameId].isListed = false;
+      thisGame.isListed = false;
 
-      games[state.gameId].gameState = gameStates.setShipsRound;
-      io.to(state.gameId).emit(
-        'changeGameState',
-        games[state.gameId].gameState,
-      );
+      thisGame.gameState = gameStates.setShipsRound;
+      io.to(state.gameId).emit('changeGameState', thisGame.gameState);
       io.to(state.gameId).emit(
         'message',
         'The game has started! Place your ships!',
       );
-
-      console.log(games[state.gameId].gameState);
     }
   });
 
   socket.on('clickOnEnemyGrid', ({ x, y }) => {
-    if (games[state.gameId].gameState === gameStates.gameRunning) {
+    if (thisGame.gameState === gameStates.gameRunning) {
       console.log(x, y);
     }
   });
 
   socket.on('clickOnFriendlyGrid', ({ x, y }) => {
-    if (games[state.gameId].gameState === gameStates.setShipsRound) {
-      console.log(x, y);
+    if (thisGame.gameState === gameStates.setShipsRound) {
+      y = letters.indexOf(y);
+      const currentCellValue = thisGame[`${state.playerId}_grid`][y][x];
+
+      if (
+        currentCellValue === 0 &&
+        thisGame[`${state.playerId}_shipsPlaced`] < 10
+      ) {
+        thisGame[`${state.playerId}_grid`][y][x] = 1;
+        thisGame[`${state.playerId}_shipsPlaced`]++;
+        socket.emit(
+          'message',
+          `Battleship placed! ${
+            10 - thisGame[`${state.playerId}_shipsPlaced`]
+          } to go.`,
+        );
+        socket.emit('updateGrid', {
+          gridToUpdate: 'friendlyGrid',
+          data: thisGame[`${state.playerId}_grid`],
+        });
+        if (
+          thisGame[`${thisGame.players[0].id}_shipsPlaced`] === 10 &&
+          thisGame[`${thisGame.players[1].id}_shipsPlaced`] === 10
+        ) {
+          thisGame.gameState = gameStates.gameRunning;
+          io.to(state.gameId).emit('changeGameState', thisGame.gameState);
+          io.to(state.gameId).emit(
+            'message',
+            'All ships are placed! Let the fighting begin!',
+          );
+          io.to(state.gameId).emit('nextRound');
+
+          // The player who first places all of his ships gets the first turn
+          socket.emit('yourTurn', false);
+          socket.broadcast.to(state.gameId).emit('yourTurn', true);
+        }
+      } else if (
+        currentCellValue === 1 &&
+        thisGame[`${state.playerId}_shipsPlaced`] < 10
+      ) {
+        socket.emit(
+          'message',
+          `You're not allowed to place ships on top of each other! Place your ship in another cell...`,
+        );
+      } else if (thisGame[`${state.playerId}_shipsPlaced`] >= 10) {
+        socket.emit(
+          'message',
+          `You've already placed the maximum number of ships available`,
+        );
+      }
     }
   });
 
@@ -190,18 +240,15 @@ io.on('connection', (socket) => {
     );
 
     // Cleanup when one or both players leave => delete game from memory when both left
-    if (games[state.gameId])
-      games[state.gameId].players = games[state.gameId].players.filter(
+    if (thisGame)
+      thisGame.players = thisGame.players.filter(
         (player) => player.id !== state.playerId,
       );
 
     // Change game-state to gameover - inform player about his win
-    if (games[state.gameId]) {
-      games[state.gameId].gameState = gameStates.gameOver;
-      io.to(state.gameId).emit(
-        'changeGameState',
-        games[state.gameId].gameState,
-      );
+    if (thisGame) {
+      thisGame.gameState = gameStates.gameOver;
+      io.to(state.gameId).emit('changeGameState', thisGame.gameState);
 
       io.to(state.gameId).emit(
         'message',
@@ -209,11 +256,8 @@ io.on('connection', (socket) => {
       );
     }
 
-    if (
-      games[state.gameId] &&
-      games[state.gameId].players &&
-      games[state.gameId].players.length === 0
-    ) {
+    if (thisGame && thisGame.players && thisGame.players.length === 0) {
+      thisGame = null;
       delete games[state.gameId];
     }
 

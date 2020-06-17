@@ -9,7 +9,7 @@
 
   // Init socket.io
   const socket = io();
-
+  // Disconnect socket when browser window is closed
   w.onclose = socket.disconnect;
 
   // Initial Grid Data
@@ -60,6 +60,8 @@
     playerId: playerId,
     enemyPlayerGridData: initialGridData,
     PlayerGridData: initialGridData,
+    currentRound: 0,
+    yourTurn: false,
   };
 
   // Prohibit modification of state
@@ -104,6 +106,32 @@
         addConsoleMessage(chatMessagesList, message, playerName);
       });
 
+      socket.on('nextRound', () => {
+        state.currentRound++;
+        currentRoundText.innerHTML = state.currentRound;
+      });
+
+      socket.on('yourTurn', (value) => {
+        state.yourTurn = value;
+        if (state.yourTurn) {
+          currentTurnText.innerHTML = `It's your turn!`;
+        } else {
+          currentTurnText.innerHTML = `Other player's turn...`;
+        }
+      });
+
+      socket.on('updateGrid', ({ gridToUpdate, data }) => {
+        switch (gridToUpdate) {
+          case 'enemyGrid':
+            updateGrid(enemyGrid, 'Enemy Waters', data);
+            break;
+
+          case 'friendlyGrid':
+            updateGrid(friendlyGrid, 'Home Waters', data);
+            break;
+        }
+      });
+
       // On receiving gameStateChange
       socket.on('changeGameState', (newGameState) => {
         switch (newGameState) {
@@ -118,6 +146,13 @@
             currentTurnText.innerHTML = 'Place your ships!';
             console.log(state.gameState);
             break;
+
+          case gameStates.gameRunning: {
+            state.gameState = gameStates.gameRunning;
+            currentTurnText.innerHTML = 'Let the fighting begin!';
+            console.log(state.gameState);
+            break;
+          }
 
           case gameStates.gameOver:
             state.gameState = gameStates.gameOver;
@@ -165,10 +200,15 @@
             );
           } else if (
             state.gameState === gameStates.gameRunning &&
+            state.yourTurn &&
             e.target.classList.contains('cell')
           ) {
             switch (elementId) {
               case 'enemy-grid':
+                socket.emit('clickOnEnemyGrid', {
+                  x: e.target.dataset.x,
+                  y: e.target.dataset.y,
+                });
                 console.log(
                   `Click on Enemy Grid ${e.target.dataset.y.toUpperCase()}${
                     e.target.dataset.x
@@ -196,6 +236,11 @@
                 break;
 
               case 'friendly-grid':
+                socket.emit('clickOnFriendlyGrid', {
+                  x: e.target.dataset.x,
+                  y: e.target.dataset.y,
+                });
+
                 console.log(
                   `Click on Friendly Grid ${e.target.dataset.y.toUpperCase()}${
                     e.target.dataset.x
