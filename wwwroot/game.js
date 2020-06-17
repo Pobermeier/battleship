@@ -2,6 +2,15 @@
   // Initial Grid Data
   const initialGridData = getInitialGridData();
 
+  // Get data from query string
+  const { playerName, game, playerId } = Qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+  });
+
+  console.log(playerId, playerName, game);
+
+  if (!playerName || !game || !playerId) window.location.pathname = '/';
+
   // Strings
   const strings = {
     getInitialGameConsoleString() {
@@ -41,8 +50,10 @@
 
   // Global state variables
   const state = {
+    gameId: game,
     gameState: gameStates.gameIsInitializing,
-    playerName: '',
+    playerName: playerName,
+    playerId: playerId,
     enemyPlayerGridData: initialGridData,
     PlayerGridData: initialGridData,
   };
@@ -71,7 +82,9 @@
 
     // Init Game functions
     (function init() {
-      state.playerName = 'Patrick';
+      // Clean up URL => remove query string
+      window.history.replaceState({}, document.title, '/' + 'play.html');
+
       addConsoleMessage(
         chatMessagesList,
         strings.getInitialGameConsoleString(),

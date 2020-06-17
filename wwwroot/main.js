@@ -31,7 +31,7 @@
         const hiddenInput = d.createElement('input');
         hiddenInput.type = 'hidden';
         hiddenInput.value = state.playerId;
-        hiddenInput.name = 'player-id';
+        hiddenInput.name = 'playerId';
         form.appendChild(hiddenInput);
       });
 

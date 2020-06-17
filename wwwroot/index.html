@@ -51,7 +51,7 @@
                 <h5 class="text-center"><strong>Create New Game</strong></h5>
                 <form id="create-form" action="/games" method="post">
                   <label for="player-name">Your Player Name:</label>
-                  <input type="text" name="player-name" class="u-full-width player-name" required>
+                  <input type="text" name="playerName" class="u-full-width player-name" required>
                   <!-- <label for="password">Game Password (optional):</label>
                   <input type="password" name="password" id="password" class="u-full-width"> -->
                   <button type="submit" class="button button-primary">Create Game</button>
@@ -63,7 +63,7 @@
                 <h5 class="text-center"><strong>Back To Main Menu</strong></h5>
                 <form id="join-form" action="/games/join" method="get">
                   <label for="player-name">Your Player Name:</label>
-                  <input type="text" name="player-name" class="u-full-width player-name" required>
+                  <input type="text" name="playerName" class="u-full-width player-name" required>
                   <label for="game">Currently Available Games:</label>
                   <select name="game" id="games-list" class="u-full-width" required>
                   </select>
