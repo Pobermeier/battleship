@@ -169,9 +169,10 @@ io.on('connection', (socket) => {
     );
 
     // Cleanup when one or both players leave => delete game from memory when both left
-    games[state.gameId].players = games[state.gameId].players.filter(
-      (player) => player.id !== state.playerId,
-    );
+    if (games[state.gameId])
+      games[state.gameId].players = games[state.gameId].players.filter(
+        (player) => player.id !== state.playerId,
+      );
 
     // Change game-state to gameover - inform player about his win
     state.gameState = gameStates.gameOver;
@@ -181,8 +182,14 @@ io.on('connection', (socket) => {
       'Congrats! You won as the other player has left the game! You will be automatically loaded to the main menu in 10 seconds...',
     );
 
-    if (games[state.gameId].players.length === 0) {
+    if (
+      games[state.gameId] &&
+      games[state.gameId].players &&
+      games[state.gameId].players.length === 0
+    ) {
       delete games[state.gameId];
     }
+
+    socket.disconnect();
   });
 });

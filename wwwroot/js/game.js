@@ -5,10 +5,12 @@
   });
 
   // If any of the query-string params was not set => redirect to home-screen
-  if (!playerName || !game || !playerId) w.location.pathname = '/';
+  if (!playerName || !game || !playerId) w.location = '/';
 
   // Init socket.io
   const socket = io();
+
+  w.onclose = socket.disconnect;
 
   // Initial Grid Data
   const initialGridData = getInitialGridData();
@@ -362,6 +364,7 @@
   // Leave Game
   function leaveGame() {
     if (confirm(strings.getLeaveConfirmText())) w.location = '/';
+    socket.disconnect();
   }
 
   // Utility Functions
