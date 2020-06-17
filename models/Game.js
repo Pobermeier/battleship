@@ -3,6 +3,7 @@ class Game {
     this.id = id;
     this.gameName = gameName;
     this.players = players;
+    this.isListed = true;
   }
 
   isGameFull = () => (this.players.length >= 2 ? true : false);

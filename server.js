@@ -26,7 +26,7 @@ app.get('/games', (req, res) => {
   } else {
     // Filter out full games
     const availGames = Object.values(games).filter(
-      (game) => !game.isGameFull(),
+      (game) => !game.isGameFull() && game.isListed,
     );
     console.log('Available games requested:', JSON.stringify(availGames));
     console.log('All games currently live: ', JSON.stringify(games));
@@ -144,6 +144,9 @@ io.on('connection', (socket) => {
     if (games[state.gameId].players.length <= 1) {
       socket.emit('message', 'Waiting for other players to join...');
     } else if (games[state.gameId].players.length >= 2) {
+      // Unlist game from lobby as soon as a second player joins
+      games[state.gameId].isListed = false;
+
       state.gameState = gameStates.setShipsRound;
       io.to(state.gameId).emit('changeGameState', state.gameState);
       io.to(state.gameId).emit(
