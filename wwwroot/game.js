@@ -5,7 +5,7 @@
   });
 
   // If any of the query-string params was not set => redirect to home-screen
-  if (!playerName || !game || !playerId) window.location.pathname = '/';
+  if (!playerName || !game || !playerId) w.location.pathname = '/';
 
   // Init socket.io
   const socket = io();
@@ -102,8 +102,34 @@
         addConsoleMessage(chatMessagesList, message, playerName);
       });
 
+      // On receiving gameStateChange
+      socket.on('changeGameState', (newGameState) => {
+        switch (newGameState) {
+          case gameStates.gameInitialized:
+            state.gameState = gameStates.gameInitialized;
+            currentTurnText.innerHTML = 'Initialized';
+            console.log(state.gameState);
+            break;
+
+          case gameStates.setShipsRound:
+            state.gameState = gameStates.setShipsRound;
+            currentTurnText.innerHTML = 'Place your ships!';
+            console.log(state.gameState);
+            break;
+
+          case gameStates.gameOver:
+            state.gameState = gameStates.gameOver;
+            currentTurnText.innerHTML = 'Game Over!';
+            setTimeout(() => {
+              w.location.pathname = '/';
+            }, 10000);
+            console.log(state.gameState);
+            break;
+        }
+      });
+
       // Clean up URL => remove query string
-      window.history.replaceState({}, document.title, '/' + 'play.html');
+      w.history.replaceState({}, d.title, '/' + 'play.html');
 
       addConsoleMessage(
         chatMessagesList,
@@ -215,9 +241,6 @@
         chatInput.value = '';
         chatInput.focus();
       });
-
-      // Init complete
-      state.gameState = gameStates.gameIsInitializing;
     })();
   });
 
@@ -338,7 +361,7 @@
 
   // Leave Game
   function leaveGame() {
-    if (confirm(strings.getLeaveConfirmText())) w.location = '/';
+    if (confirm(strings.getLeaveConfirmText())) w.location.path = '/';
   }
 
   // Utility Functions
