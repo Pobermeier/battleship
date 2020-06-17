@@ -111,7 +111,6 @@ const io = socketio(server);
 io.on('connection', (socket) => {
   // The state for this individual session = player
   const state = {
-    gameState: gameStates.gameIsInitializing,
     gameId: null,
     playerId: null,
     playerName: '',
@@ -131,8 +130,9 @@ io.on('connection', (socket) => {
     games[state.gameId][`${playerId}_shipsPlaced`] = 0;
 
     // Change game state to "initialized"
-    state.gameState = gameStates.gameInitialized;
-    socket.emit('changeGameState', state.gameState);
+
+    games[state.gameId].gameState = gameStates.gameInitialized;
+    socket.emit('changeGameState', games[state.gameId].gameState);
     socket.emit('message', 'Welcome to the game!');
 
     // Broadcast to other player that another player has joined
@@ -143,16 +143,34 @@ io.on('connection', (socket) => {
     // Check number of players, as soon as both players are there => game can start
     if (games[state.gameId].players.length <= 1) {
       socket.emit('message', 'Waiting for other players to join...');
+      console.log(games[state.gameId].gameState);
     } else if (games[state.gameId].players.length >= 2) {
       // Unlist game from lobby as soon as a second player joins
       games[state.gameId].isListed = false;
 
-      state.gameState = gameStates.setShipsRound;
-      io.to(state.gameId).emit('changeGameState', state.gameState);
+      games[state.gameId].gameState = gameStates.setShipsRound;
+      io.to(state.gameId).emit(
+        'changeGameState',
+        games[state.gameId].gameState,
+      );
       io.to(state.gameId).emit(
         'message',
         'The game has started! Place your ships!',
       );
+
+      console.log(games[state.gameId].gameState);
+    }
+  });
+
+  socket.on('clickOnEnemyGrid', ({ x, y }) => {
+    if (games[state.gameId].gameState === gameStates.gameRunning) {
+      console.log(x, y);
+    }
+  });
+
+  socket.on('clickOnFriendlyGrid', ({ x, y }) => {
+    if (games[state.gameId].gameState === gameStates.setShipsRound) {
+      console.log(x, y);
     }
   });
 
@@ -178,12 +196,18 @@ io.on('connection', (socket) => {
       );
 
     // Change game-state to gameover - inform player about his win
-    state.gameState = gameStates.gameOver;
-    io.to(state.gameId).emit('changeGameState', state.gameState);
-    io.to(state.gameId).emit(
-      'message',
-      'Congrats! You won as the other player has left the game! You will be automatically loaded to the main menu in 10 seconds...',
-    );
+    if (games[state.gameId]) {
+      games[state.gameId].gameState = gameStates.gameOver;
+      io.to(state.gameId).emit(
+        'changeGameState',
+        games[state.gameId].gameState,
+      );
+
+      io.to(state.gameId).emit(
+        'message',
+        'Congrats! You won as the other player has left the game! You will be automatically loaded to the main menu in 10 seconds...',
+      );
+    }
 
     if (
       games[state.gameId] &&
