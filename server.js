@@ -218,7 +218,7 @@ io.on('connection', (socket) => {
           io.to(state.gameId).emit('changeGameState', thisGame.gameState);
           io.to(state.gameId).emit(
             'message',
-            `${state.playerName} won! Congratulations! ou will be automatically loaded to the main menu in 10 seconds...`,
+            `${state.playerName} won! Congratulations! You will be automatically loaded to the main menu in 10 seconds...`,
           );
           return;
         }
