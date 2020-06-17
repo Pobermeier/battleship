@@ -30,6 +30,7 @@ app.get('/games', (req, res) => {
       (game) => !game.isGameFull(),
     );
     console.log('Available games requested:', JSON.stringify(availGames));
+    console.log('All games: ', JSON.stringify(games));
     res.status(200).json(availGames);
   }
 });
@@ -41,10 +42,6 @@ app.get('/games/join', (req, res) => {
   const gameId = req.query.game;
 
   const player = new Player(playerId, playerName);
-
-  console.log(gameId);
-  console.log(games);
-  console.log(games[gameId]);
 
   if (!playerName || !gameId || !playerId) {
     res.status(404).redirect('/');
@@ -80,7 +77,7 @@ app.post('/games', (req, res) => {
     console.log('Created new game', game);
 
     games = { ...games, [gameId]: game };
-    console.log('all games: ', JSON.stringify(games));
+    console.log('All games: ', JSON.stringify(games));
 
     res
       .status(301)
