@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const generateUUID = require('./helpers/generateUUID');
 const Game = require('./models/Game');
 const Player = require('./models/Player');
-const games = require('./data/games');
+let games = require('./data/games');
 
 const PORT = process.env.PORT || 5007;
 
@@ -15,16 +15,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const player = new Player(generateUUID(), 'Patrick');
-const player2 = new Player(generateUUID(), 'Patrick2');
-const game = new Game(generateUUID(), `${player.playerName}'s Game`, [player]);
-const game2 = new Game(generateUUID(), `${player.playerName}'s Game`, [player]);
-
-games.push(game);
-games.push(game2);
-
-console.log(JSON.stringify(games));
-
 // Configure Routes
 app.get('/games', (req, res) => {
   if (!games) {
@@ -32,11 +22,64 @@ app.get('/games', (req, res) => {
   } else {
     // Filter out full games
     const availGames = games.filter((game) => !game.isGameFull());
+    console.log('Available games requested:', JSON.stringify(availGames));
     res.status(200).json(availGames);
   }
 });
 
-app.post('/games', (req, res) => {});
+app.get('/games/join', (req, res) => {
+  const playerName = req.query['player-name'];
+  const playerId = req.query['player-id'];
+  const gameId = req.query.game;
+
+  const player = new Player(playerId, playerName);
+
+  if (!playerName || !gameId || !playerId) {
+    res.status(404).redirect('/');
+  } else {
+    const updatedGames = games.map((game) => {
+      if (game.id === gameId) {
+        if (game.isGameFull()) {
+          res.status(404).redirect('/');
+        } else {
+          game.players.push(player);
+        }
+      }
+      return game;
+    });
+    games = [...updatedGames];
+  }
+
+  res.redirect(
+    `/play.html?player-name=${playerName}&game=${gameId}&player-id=${playerId}`,
+  );
+});
+
+app.post('/games', (req, res) => {
+  if (!games) {
+    res.status(500).json({ statusCode: 500, msg: 'Internal Server Error' });
+  } else if (!req.body['player-name'] || !req.body['player-id']) {
+    res.status(500).json({
+      statusCode: 404,
+      msg: 'Bad request! Please submit correct data!',
+    });
+  } else {
+    const playerName = req.body['player-name'];
+    const playerId = req.body['player-id'];
+
+    const player = new Player(playerId, playerName);
+    const game = new Game(generateUUID(), `${playerName}'s Game`, [player]);
+
+    console.log('Created new game', JSON.stringify(game));
+    games.push(game);
+
+    res
+      .status(301)
+      .redirect(
+        `/play.html?player-name=${playerName}&game=${game.id}&player-id=${playerId}`,
+      );
+  }
+});
 
 // Set Express Static-Folder
 app.use(express.static(path.resolve(__dirname, 'wwwroot')));

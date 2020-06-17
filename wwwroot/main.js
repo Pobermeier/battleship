@@ -1,7 +1,7 @@
 (function (w, d) {
   // Global State
   const state = {
-    playerName: localStorage.getItem('playerName') || '',
+    playerId: localStorage.getItem('playerId') || '',
     games: [],
   };
 
@@ -14,18 +14,26 @@
     const secondaryButtons = d.querySelectorAll('.secondary-btn');
     const gamesList = d.querySelector('#games-list');
     const joinForm = d.querySelector('#join-form');
+    const createForm = d.querySelector('#create-form');
 
     // Init function
     (async function init() {
+      if (state.playerId === '') {
+        state.playerId = generateUUID();
+        localStorage.setItem('playerId', state.playerId);
+      }
+
       // Get list of available games from server
       state.games = await fetchGames();
       updateGamesList(state.games, gamesList);
 
-      const hiddenInput = d.createElement('input');
-      hiddenInput.type = 'hidden';
-      hiddenInput.value = generateUUID();
-      hiddenInput.name = 'player-id';
-      joinForm.appendChild(hiddenInput);
+      [joinForm, createForm].forEach((form) => {
+        const hiddenInput = d.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.value = state.playerId;
+        hiddenInput.name = 'player-id';
+        form.appendChild(hiddenInput);
+      });
 
       // Register UI Event Listeners
       tabTriggers.forEach((tabTrigger) => {
@@ -73,9 +81,11 @@
     gamesListElement.innerHTML = '';
 
     gamesData.forEach((game) => {
-      gamesListElement.innerHTML += `
-       <option value="${game.id}">${game.gameName} (${game.players.length}/2)</option>
-      `;
+      if (game.players[0].id !== state.playerId) {
+        gamesListElement.innerHTML += `
+        <option value="${game.id}">${game.gameName} (${game.players.length}/2)</option>
+       `;
+      }
     });
   }
 
