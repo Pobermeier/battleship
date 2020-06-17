@@ -38,14 +38,18 @@
       // Register UI Event Listeners
       tabTriggers.forEach((tabTrigger) => {
         tabTrigger.addEventListener('click', async (e) => {
+          const elementId = e.target.closest('button').id;
+
           const allTabs = d.querySelectorAll('.tab');
           allTabs.forEach((tab) => tab.classList.add('hidden'));
           d.querySelector(`#${e.target.dataset.targets}`).classList.remove(
             'hidden',
           );
 
-          state.games = await fetchGames();
-          updateGamesList(state.games, gamesList);
+          if (elementId === 'join-btn') {
+            state.games = await fetchGames();
+            updateGamesList(state.games, gamesList);
+          }
         });
       });
 
