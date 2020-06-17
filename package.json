@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/Pobermeier/battleship-websockets-game/issues"
   },
-  "homepage": "https://github.com/Pobermeier/battleship-websockets-game#readme"
+  "homepage": "https://github.com/Pobermeier/battleship-websockets-game#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
 }
