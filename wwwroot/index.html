@@ -61,14 +61,11 @@
               </div>
               <div class="tab hidden" id="join-tab">
                 <h5 class="text-center"><strong>Back To Main Menu</strong></h5>
-                <form action="/play.html" method="get">
+                <form id="join-form" action="/play.html" method="get">
                   <label for="player-name">Your Player Name:</label>
                   <input type="text" name="player-name" class="u-full-width player-name" required>
                   <label for="game">Currently Available Games:</label>
                   <select name="game" id="games-list" class="u-full-width">
-                    <option value="game1">Game 1</option>
-                    <option value="game2">Game 2</option>
-                    <option value="game3">Game 3</option>
                   </select>
                   <button type="submit" class="button button-primary">Join Game</button>
                   <button class="button secondary-btn" id="refresh-games-btn">Refresh Games List</button>

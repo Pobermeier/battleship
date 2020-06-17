@@ -1,6 +1,7 @@
 class Game {
-  constructor(id, players) {
+  constructor(id, gameName, players) {
     this.id = id;
+    this.gameName = gameName;
     this.players = players;
   }
 
@@ -8,4 +9,4 @@ class Game {
   getNumberOfPlayers = () => this.players.length;
 }
 
-module.exports.default = Game;
+module.exports = Game;

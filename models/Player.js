@@ -5,4 +5,4 @@ class Player {
   }
 }
 
-module.exports.default = Player;
+module.exports = Player;

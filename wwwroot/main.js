@@ -2,6 +2,7 @@
   // Global State
   const state = {
     playerName: localStorage.getItem('playerName') || '',
+    games: [],
   };
 
   // Strings
@@ -11,28 +12,44 @@
     // UI References
     const tabTriggers = d.querySelectorAll('.tab-trigger');
     const secondaryButtons = d.querySelectorAll('.secondary-btn');
+    const gamesList = d.querySelector('#games-list');
+    const joinForm = d.querySelector('#join-form');
 
     // Init function
-    (function init() {
+    (async function init() {
+      // Get list of available games from server
+      state.games = await fetchGames();
+      updateGamesList(state.games, gamesList);
+
+      const hiddenInput = d.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.value = generateUUID();
+      hiddenInput.name = 'player-id';
+      joinForm.appendChild(hiddenInput);
+
       // Register UI Event Listeners
       tabTriggers.forEach((tabTrigger) => {
-        tabTrigger.addEventListener('click', (e) => {
+        tabTrigger.addEventListener('click', async (e) => {
           const allTabs = d.querySelectorAll('.tab');
           allTabs.forEach((tab) => tab.classList.add('hidden'));
           d.querySelector(`#${e.target.dataset.targets}`).classList.remove(
             'hidden',
           );
+
+          state.games = await fetchGames();
+          updateGamesList(state.games, gamesList);
         });
       });
 
       secondaryButtons.forEach((button) => {
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', async (e) => {
           const elementId = e.target.closest('button').id;
 
           switch (elementId) {
             case 'refresh-games-btn':
               e.preventDefault();
-              console.log('Refresh Games-List Btn Pressed!');
+              state.games = await fetchGames();
+              updateGamesList(state.games, gamesList);
               break;
             case 'toggle-music-btn':
               console.log('Toggle Music Btn Pressed!');
@@ -50,6 +67,23 @@
       });
     })();
   });
+
+  // Update games list
+  function updateGamesList(gamesData, gamesListElement) {
+    gamesListElement.innerHTML = '';
+
+    gamesData.forEach((game) => {
+      gamesListElement.innerHTML += `
+       <option value="${game.id}">${game.gameName} (${game.players.length}/2)</option>
+      `;
+    });
+  }
+
+  // Fetch list of games from server
+  async function fetchGames() {
+    const games = await (await fetch('/games')).json();
+    return games;
+  }
 
   // Toggle Fullscreen
   function toggleFullScreen(elem) {

@@ -1,3 +1,3 @@
 const games = [];
 
-module.exports.default = games;
+module.exports = games;
