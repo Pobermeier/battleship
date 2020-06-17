@@ -1,0 +1,27 @@
+{
+  "name": "battleship-websockets-game",
+  "version": "1.0.0",
+  "description": "An implementation fo the classic battleship-game using Node.js, Express & Socket.io\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pobermeier/battleship-websockets-game.git"
+  },
+  "keywords": [
+    "battleship",
+    "game",
+    "websockets",
+    "express",
+    "nodejs",
+    "node"
+  ],
+  "author": "Patrick Obermeier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pobermeier/battleship-websockets-game/issues"
+  },
+  "homepage": "https://github.com/Pobermeier/battleship-websockets-game#readme"
+}
