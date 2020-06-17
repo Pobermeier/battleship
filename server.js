@@ -117,6 +117,7 @@ io.on('connection', (socket) => {
     gameId: null,
     playerId: null,
     playerName: '',
+    otherPlayerGrid: getInitialGridData(),
   };
 
   let thisGame;
@@ -166,7 +167,74 @@ io.on('connection', (socket) => {
 
   socket.on('clickOnEnemyGrid', ({ x, y }) => {
     if (thisGame.gameState === gameStates.gameRunning) {
-      console.log(x, y);
+      y = letters.indexOf(y);
+
+      const otherPlayerId = thisGame.players.filter((player) => {
+        return player.id !== state.playerId;
+      })[0].id;
+      const currentCellValue = thisGame[`${otherPlayerId}_grid`][y][x];
+
+      if (currentCellValue === 2 || currentCellValue === 3) {
+        socket.emit(
+          'message',
+          `You already hit that spot! Click on another one`,
+        );
+        return;
+      }
+
+      if (currentCellValue === 0) {
+        thisGame[`${otherPlayerId}_grid`][y][x] = 2;
+        state.otherPlayerGrid[y][x] = 2;
+        socket.emit('message', `You hit water!`);
+        socket.broadcast
+          .to(state.gameId)
+          .emit('message', `The other player hit nothing!`);
+      } else if (currentCellValue === 1) {
+        thisGame[`${otherPlayerId}_grid`][y][x] = 3;
+        state.otherPlayerGrid[y][x] = 3;
+        thisGame[`${otherPlayerId}_shipsLost`]++;
+        socket.emit(
+          'message',
+          `You hit one of the other players' battleships! Nice!`,
+        );
+        socket.broadcast
+          .to(state.gameId)
+          .emit(
+            'message',
+            `Oh noes! The other player hit one of your battleships!`,
+          );
+
+        if (thisGame[`${otherPlayerId}_shipsLost`] >= 10) {
+          socket.emit('updateGrid', {
+            gridToUpdate: 'enemyGrid',
+            data: state.otherPlayerGrid,
+          });
+          socket.broadcast.to(state.gameId).emit('updateGrid', {
+            gridToUpdate: 'friendlyGrid',
+            data: thisGame[`${otherPlayerId}_grid`],
+          });
+
+          thisGame.gameState = gameStates.gameOver;
+          io.to(state.gameId).emit('changeGameState', thisGame.gameState);
+          io.to(state.gameId).emit(
+            'message',
+            `${state.playerName} won! Congratulations! ou will be automatically loaded to the main menu in 10 seconds...`,
+          );
+          return;
+        }
+      }
+      socket.emit('updateGrid', {
+        gridToUpdate: 'enemyGrid',
+        data: state.otherPlayerGrid,
+      });
+      socket.broadcast.to(state.gameId).emit('updateGrid', {
+        gridToUpdate: 'friendlyGrid',
+        data: thisGame[`${otherPlayerId}_grid`],
+      });
+
+      io.to(state.gameId).emit('nextRound');
+      socket.emit('yourTurn', false);
+      socket.broadcast.to(state.gameId).emit('yourTurn', true);
     }
   });
 
