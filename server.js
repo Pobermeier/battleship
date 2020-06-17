@@ -80,8 +80,6 @@ app.post('/games', (req, res) => {
     const playerName = req.body['playerName'];
     const playerId = req.body['playerId'];
 
-    console.log(playerId);
-
     const player = new Player(playerId, playerName);
     const game = new Game(generateUUID(), `${playerName}'s Game`, [player]);
 
