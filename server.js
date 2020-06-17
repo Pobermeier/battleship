@@ -27,7 +27,7 @@ app.get('/games', (req, res) => {
   } else {
     // Filter out full games
     const availGames = games.filter((game) => !game.isGameFull());
-    console.log('Available games requested:', JSON.stringify(availGames));
+    // console.log('Available games requested:', JSON.stringify(availGames));
     res.status(200).json(availGames);
   }
 });
@@ -80,10 +80,12 @@ app.post('/games', (req, res) => {
     const playerName = req.body['playerName'];
     const playerId = req.body['playerId'];
 
+    console.log(playerId);
+
     const player = new Player(playerId, playerName);
     const game = new Game(generateUUID(), `${playerName}'s Game`, [player]);
 
-    console.log('Created new game', JSON.stringify(game));
+    // console.log('Created new game', JSON.stringify(game));
     games.push(game);
 
     res
@@ -102,3 +104,39 @@ const server = app.listen(PORT, () => {
 });
 
 const io = socketio(server);
+
+io.on('connection', (socket) => {
+  const state = {
+    gameId: null,
+    playerId: null,
+    playerName: '',
+  };
+
+  socket.on('joinGame', ({ gameId, playerId, playerName }) => {
+    state.gameId = gameId;
+    state.playerName = playerName;
+    state.playerId = playerId;
+
+    socket.join(gameId);
+
+    socket.emit('message', 'Welcome to the game!');
+
+    socket.broadcast
+      .to(gameId)
+      .emit('message', `${playerName} has joined the game.`);
+  });
+
+  socket.on('chatMessage', ({ playerName, message }) => {
+    io.to(state.gameId).emit('chatMessage', {
+      playerName,
+      message,
+    });
+  });
+
+  socket.on('disconnect', () => {
+    io.to(state.gameId).emit(
+      'message',
+      `${state.playerName} has left the game.`,
+    );
+  });
+});

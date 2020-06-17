@@ -1,15 +1,17 @@
 (function (w, d) {
-  // Initial Grid Data
-  const initialGridData = getInitialGridData();
-
   // Get data from query string
   const { playerName, game, playerId } = Qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 
-  console.log(playerId, playerName, game);
-
+  // If any of the query-string params was not set => redirect to home-screen
   if (!playerName || !game || !playerId) window.location.pathname = '/';
+
+  // Init socket.io
+  const socket = io();
+
+  // Initial Grid Data
+  const initialGridData = getInitialGridData();
 
   // Strings
   const strings = {
@@ -82,6 +84,24 @@
 
     // Init Game functions
     (function init() {
+      // Join Game
+      socket.emit('joinGame', {
+        gameId: state.gameId,
+        playerId: state.playerId,
+        playerName: state.playerName,
+      });
+
+      // On receiving message
+      socket.on('message', (message) =>
+        addConsoleMessage(chatMessagesList, message),
+      );
+
+      // On receiving chatMessage
+      socket.on('chatMessage', ({ playerName, message }) => {
+        console.log(playerName, message);
+        addConsoleMessage(chatMessagesList, message, playerName);
+      });
+
       // Clean up URL => remove query string
       window.history.replaceState({}, document.title, '/' + 'play.html');
 
@@ -188,8 +208,12 @@
 
       chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        addConsoleMessage(chatMessagesList, chatInput.value, state.playerName);
+        socket.emit('chatMessage', {
+          playerName: state.playerName,
+          message: chatInput.value,
+        });
         chatInput.value = '';
+        chatInput.focus();
       });
 
       // Init complete
