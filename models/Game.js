@@ -6,6 +6,7 @@ class Game {
   }
 
   isGameFull = () => (this.players.length >= 2 ? true : false);
+  isGameEmpty = () => (this.players.length === 0 ? true : false);
   getNumberOfPlayers = () => this.players.length;
 }
 

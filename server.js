@@ -41,11 +41,17 @@ app.get('/games/join', (req, res) => {
       if (game.id === gameId) {
         if (game.isGameFull()) {
           res.status(404).redirect('/');
+          return game;
+        } else if (game.isGameEmpty()) {
+          res.status(404).redirect('/');
+          return null;
         } else {
           game.players.push(player);
+          return game;
         }
+      } else {
+        return game;
       }
-      return game;
     });
     games = [...updatedGames];
   }
