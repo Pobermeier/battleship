@@ -139,7 +139,6 @@ io.on('connection', (socket) => {
     thisGame[`${state.playerId}_shipsLost`] = 0;
 
     // Change game state to "initialized"
-
     thisGame.gameState = gameStates.gameInitialized;
     socket.emit('changeGameState', thisGame.gameState);
     socket.emit('message', 'Welcome to the game!');
