@@ -7,8 +7,8 @@ class Game {
     this.gameState = null;
   }
 
-  isGameFull = () => (this.players.length >= 2 ? true : false);
-  isGameEmpty = () => (this.players.length === 0 ? true : false);
+  isGameFull = () => this.players.length >= 2;
+  isGameEmpty = () => this.players.length === 0;
   getNumberOfPlayers = () => this.players.length;
 }
 
