@@ -6,7 +6,7 @@ const Game = require('./models/Game');
 const Player = require('./models/Player');
 
 // Games data - managed in-memory while server is running
-let games = require('./data/games');
+let games = {};
 // Get port from Heroku env-vars in production
 const PORT = process.env.PORT || 5007;
 // Init Express
