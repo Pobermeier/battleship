@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const bodyParser = require('body-parser');
 const socketio = require('socket.io');
 const generateUUID = require('./helpers/generateUUID');
 const Game = require('./models/Game');
@@ -14,8 +13,8 @@ const PORT = process.env.PORT || 5007;
 const app = express();
 
 // Init Express-Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Configure API-Routes
 
