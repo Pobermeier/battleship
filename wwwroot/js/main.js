@@ -15,7 +15,9 @@
 
     // Init function
     (async function init() {
-      if (state.playerId === '') {
+      const hasPlayerNoId = state.playerId === '';
+
+      if (hasPlayerNoId) {
         state.playerId = generateUUID();
         localStorage.setItem('playerId', state.playerId);
       }
