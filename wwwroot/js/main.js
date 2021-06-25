@@ -1,12 +1,9 @@
-(function (w, d) {
+(function (_, d) {
   // Global State
   const state = {
     playerId: localStorage.getItem('playerId') || '',
     games: [],
   };
-
-  // Strings
-  const strings = {};
 
   d.addEventListener('DOMContentLoaded', () => {
     // UI References
@@ -87,8 +84,8 @@
     gamesData.forEach((game) => {
       if (game.players[0].id !== state.playerId) {
         gamesListElement.innerHTML += `
-        <option value="${game.id}">${game.gameName} (${game.players.length}/2)</option>
-       `;
+          <option value="${game.id}">${game.gameName} (${game.players.length}/2)</option>
+        `;
       }
     });
   }
