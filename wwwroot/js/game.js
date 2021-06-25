@@ -57,8 +57,6 @@
 
   // Prohibit modification of state
   Object.freeze(gameStates);
-  Object.freeze(state);
-  Object.seal(gameStates);
   Object.seal(state);
 
   // Init game once DOM elements are fully loaded
