@@ -4,8 +4,12 @@
     ignoreQueryPrefix: true,
   });
 
+  const redirectToHomePage = () => {
+    w.location = '/';
+  };
+
   // If any of the query-string params was not set => redirect to home-screen
-  if (!playerName || !game || !playerId) w.location = '/';
+  (!playerName || !game || !playerId) && redirectToHomePage();
 
   // Init socket.io
   const socket = io();
@@ -17,30 +21,17 @@
 
   // Strings
   const strings = {
-    getInitialGameConsoleString() {
-      return `Please wait! Initializing Game...`;
-    },
-    getInitialCurrentTurnString() {
-      return 'Initializing Game...';
-    },
-    getLeaveConfirmText() {
-      return `Are you sure you want to leave the game?`;
-    },
-    getEnemyGridCaption() {
-      return 'Enemy Waters';
-    },
-    getHomeGridCaption() {
-      return 'Home Waters';
-    },
-    getGameHasNotStartedErrorMessage() {
-      return "You cannot attack yet, because the game hasn't started. Please place all of your ships for the game to begin!";
-    },
-    getWrongFieldClickedErrorMessage() {
-      return "There's no point in clicking here! Click on your enemies' play field to attack his ships.";
-    },
-    getGameIsAlreadyOverErrorMessage() {
-      return 'Game is over! You can stop clicking!';
-    },
+    getInitialGameConsoleString: () => `Please wait! Initializing Game...`,
+    getInitialCurrentTurnString: () => 'Initializing Game...',
+    getLeaveConfirmText: () => `Are you sure you want to leave the game?`,
+    getEnemyGridCaption: () => 'Enemy Waters',
+    getHomeGridCaption: () => 'Home Waters',
+    getGameHasNotStartedErrorMessage: () =>
+      "You cannot attack yet, because the game hasn't started. Please place all of your ships for the game to begin!",
+    getWrongFieldClickedErrorMessage: () =>
+      "There's no point in clicking here! Click on your enemies' play field to attack his ships.",
+    getGameIsAlreadyOverErrorMessage: () =>
+      'Game is over! You can stop clicking!',
   };
 
   // Game states
@@ -66,6 +57,8 @@
 
   // Prohibit modification of state
   Object.freeze(gameStates);
+  Object.freeze(state);
+  Object.seal(gameStates);
   Object.seal(state);
 
   // Init game once DOM elements are fully loaded
@@ -157,9 +150,7 @@
           case gameStates.gameOver:
             state.gameState = gameStates.gameOver;
             currentTurnText.innerHTML = 'Game Over!';
-            setTimeout(() => {
-              w.location.pathname = '/';
-            }, 10000);
+            setTimeout(() => redirectToHomePage(), 10000);
             console.log(state.gameState);
             break;
         }
@@ -340,14 +331,10 @@
 
   // Update grid
   function updateGrid(rootElement, captionText, data) {
-    console.group(captionText);
-    console.table(data);
-    console.groupEnd();
-
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     const tableHeaderCells = new Array(10)
       .fill('', 0, 10)
-      .map((e, i) => `<th>${i}</th>`)
+      .map((_, i) => `<th>${i}</th>`)
       .join('');
     const tableContent = data
       .map((rowData, indexY) => {
@@ -405,7 +392,7 @@
 
   // Leave Game
   function leaveGame() {
-    if (confirm(strings.getLeaveConfirmText())) w.location = '/';
+    confirm(strings.getLeaveConfirmText()) && redirectToHomePage();
     socket.disconnect();
   }
 })(window, document);
