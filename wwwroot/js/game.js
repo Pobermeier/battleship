@@ -375,18 +375,18 @@
       .join('');
 
     rootElement.innerHTML = `
-    <table>
-      <caption>
-        <h5><strong>${captionText}</strong></h5>
-      </caption>
-      <thead>
-        <th></th>
-        ${tableHeaderCells}
-      </thead>
-      <tbody>
-        ${tableContent}
-      </tbody>
-    </table>
+      <table>
+        <caption>
+          <h5><strong>${captionText}</strong></h5>
+        </caption>
+        <thead>
+          <th></th>
+          ${tableHeaderCells}
+        </thead>
+        <tbody>
+          ${tableContent}
+        </tbody>
+      </table>
     `;
   }
 
@@ -408,7 +408,4 @@
     if (confirm(strings.getLeaveConfirmText())) w.location = '/';
     socket.disconnect();
   }
-
-  // Utility Functions
-  // ...
 })(window, document);
