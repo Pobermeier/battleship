@@ -1,7 +1,7 @@
 # Battleship!
 A multiplayer variant of the famous battleship game implemented with Node.js, Express & Socket.io. 
 
-You can check out a live version of this project [here](https://battleship-websockets-game.herokuapp.com/)
+You can check out a live version of this project [here](https://battleship.up.railway.app/)
 
 ## Project Set-Up
 
