@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Pobermeier/battleship-websockets-game#readme",
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.20"
   },
   "dependencies": {
     "express": "^4.17.1",
